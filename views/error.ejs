@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include layouts/head.ejs %>
+    </head>
+    <body>
+        <header>
+            <% include layouts/header.ejs %>
+        </header>
+        <section class="section">
+            <p class="container">
+                <h1 class="title has-text-centered"><%= error.status %></h1>
+                <p class="has-text-centered"><%= message %></p>
+                <br/>
+                <pre><%= error.stack %></pre>
+            </div>
+        </section>
+    </body>
+</html>

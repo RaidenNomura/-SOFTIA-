@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include layouts/head.ejs %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      window.addEventListener('DOMContentLoaded', () => {
+        let conventions = <%- JSON.stringify(conventions) %>;
+        let users = <%- JSON.stringify(users) %>;
+        let attestations = <%- JSON.stringify(attestations) %>;
+
+        $(function() {
+          $('#student').change(function(){
+            let usr = users.find((u) => u.idEtudiant == $(this).val());
+            if (!usr) {
+              $('#message').val('');
+              $('#convention').val('');
+              return;
+            }
+            let conv = conventions.find((u) => u.idConvention == usr.Convention);
+            if (conv == null) {
+              $('#message').val('');
+              $('#convention').val('');
+              return;
+            }
+            $('#convention').val(conv.nom);
+            $('#message').val("Bonjour #NOM_ETUDIANT# #PRENOM_ETUDIANT#,\nVous avez suivi #nbHeur# de formation chez FormationPlus.\nPouvez-vous nous retourner ce mail avec la pièce jointe signée.\nCordialement,\nFormationPlus");
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <% include layouts/header.ejs %>
+    </header>
+    <br />
+    <div class="container">
+      <form action="/show" method="post">
+        <fieldset>
+          <div class="field">
+            <label for="student">Student:</label>
+            <div class="select">
+              <select class="input" id="student" name="student" required>
+                <option>NONE</option>
+                <% for (let i = 0; i < users.length; i++) { %>
+                  <option value="<%= users[i].idEtudiant %>"><%= users[i].prenom %> <%= users[i].nom %></option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+          <br />
+          <div class="field">
+            <label for="convention">Convention:</label>
+            <input class="input" type="text" id="convention" name="convention" readonly />
+          </div>
+          <br />
+          <div class="field">
+            <textarea class="textarea" rows="10" cols="80" id="message" name="message" required></textarea>
+          </div>
+          <br />
+          <button class="button" type="submit">Submit</button>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

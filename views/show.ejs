@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include layouts/head.ejs %>
+    </head>
+    <body>
+        <header>
+            <% include layouts/header.ejs %>
+        </header>
+        <br />
+        <div class="container">
+            <div class="notification">
+                <%- attestation.message.replace(new RegExp('#NOM_ETUDIANT#', 'g'), user.nom).replace(new RegExp('#PRENOM_ETUDIANT#', 'g'), user.prenom).replace(new RegExp('#nbHeur#', 'g'), convention.nbHeur).replace(new RegExp('\n', 'g'), '<br />'); %>
+            </div>
+        </div>
+    </body>
+</html>
